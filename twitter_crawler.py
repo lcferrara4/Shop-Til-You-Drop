@@ -47,7 +47,7 @@ def get_tweet_keyword(api, keywords):
 	try: 
 		stream.filter(track = keywords)
 	except:
-		print "error!"
+		print "error: get_tweet_keyword"
 		stream.disconnect()
 
 	keys = ['Lululemon', 'Urban Outfitters' ,'Burberry']
