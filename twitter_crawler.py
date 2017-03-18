@@ -50,12 +50,12 @@ def get_tweet_keyword(api, keywords):
 		print "error: get_tweet_keyword"
 		stream.disconnect()
 
-	keys = ['Lululemon', 'Urban Outfitters' ,'Burberry']
-	get_tweet_keyword(api, keys)
 
 # Main
 # ============================================================================*
 if __name__ == '__main__':
 	api = authenticate();
+	keys = ['Lululemon', 'Urban Outfitters' ,'Burberry']
+	get_tweet_keyword(api, keys)
 
 
