@@ -56,14 +56,32 @@ def get_tweets_company(api, company):
 	for date in dates:
 		next_date = dates.index(date)+1
 		if next_date < len(dates):
-			for tweet in tweepy.Cursor(api.search, q=company, count=100, since=date, until=dates[next_date], lang="en").items():
-				tweets[tweet.id] = tweet.text.encode("utf-8")
+			cursor = tweepy.Cursor(api.search, q=company, count=100, since=date, until=dates[next_date], lang="en").items()
+			while True:
+				try:
+					tweet = cursor.next()
+					tweets[tweet.id] = tweet.text.encode("utf-8")
+				except tweepy.TweepError as e:
+					time.sleep(60*15)
+					print('waiting on rate limit...')
+					continue
+				except StopIteration:
+					break
+			#for tweet in cursor:
+				#tweets[tweet.id] = tweet.text.encode("utf-8")
+				#print '-' * 30
+				#print(tweet.text)
 
 	company = company.replace(" ", "")
-	file = company + '_tweets.json'
+	json_file = company + '_tweets.json'
+	text_file = company + '_tweets.txt'
 
-	with open(file, 'w') as f:
+	with open(json_file, 'w') as f:
 		json.dump(tweets, f)
+
+	with open(text_file, "w") as f:
+		for tweet in tweets:
+			f.write(str(tweet) + ':\t' + tweets[tweet])
 
 
 # Main
@@ -71,9 +89,9 @@ def get_tweets_company(api, company):
 if __name__ == '__main__':
 	api = authenticate();
 	
-	#get_tweets_company(api, "lululemon")
+	get_tweets_company(api, "lululemon")
 	get_tweets_company(api, "urban outfitters")
-	#get_tweets_company(api, "burberry")
+	get_tweets_company(api, "burberry")
 
 
 
