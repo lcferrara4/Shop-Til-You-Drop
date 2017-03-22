@@ -62,26 +62,17 @@ def get_tweets_company(api, company):
 					tweet = cursor.next()
 					tweets[tweet.id] = tweet.text.encode("utf-8")
 				except tweepy.TweepError as e:
-					time.sleep(60*15)
 					print('waiting on rate limit...')
+					time.sleep(60*15)
 					continue
 				except StopIteration:
 					break
-			#for tweet in cursor:
-				#tweets[tweet.id] = tweet.text.encode("utf-8")
-				#print '-' * 30
-				#print(tweet.text)
 
 	company = company.replace(" ", "")
 	json_file = company + '_tweets.json'
-	text_file = company + '_tweets.txt'
 
-	with open(json_file, 'w') as f:
-		json.dump(tweets, f)
-
-	with open(text_file, "w") as f:
-		for tweet in tweets:
-			f.write(str(tweet) + ':\t' + tweets[tweet])
+	with open(json_file, 'w') as file:
+		json.dump(tweets, file)
 
 
 # Main
