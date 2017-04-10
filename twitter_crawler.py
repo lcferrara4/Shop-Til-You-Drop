@@ -51,28 +51,37 @@ def get_tweet_keyword(api, keywords):
 		stream.disconnect()
 
 def get_tweets_company(api, company):
-	dates = ["2017-03-13", "2017-03-14", "2017-03-15", "2017-03-16", "2017-03-17", "2017-03-18", "2017-03-19", "2017-03-20"]
-	tweets = {}
+	dates = ["2017-03-30", "2017-03-31", "2017-04-01", "2017-04-02", "2017-04-03", "2017-04-04", "2017-04-05", "2017-04-06", "2017-04-07"]
+	
+	company_file = company.replace(" ", "")
+
+
 	for date in dates:
-		next_date = dates.index(date)+1
-		if next_date < len(dates):
-			cursor = tweepy.Cursor(api.search, q=company, count=100, since=date, until=dates[next_date], lang="en").items()
-			while True:
-				try:
-					tweet = cursor.next()
-					tweets[tweet.id] = tweet.text.encode("utf-8")
-				except tweepy.TweepError as e:
-					print('waiting on rate limit...')
-					time.sleep(60*15)
-					continue
-				except StopIteration:
-					break
-
-	company = company.replace(" ", "")
-	json_file = company + '_tweets.json'
-
-	with open(json_file, 'w') as file:
-		json.dump(tweets, file)
+		tweets = []
+		json_file = company_file + '_' + date + '_tweets.json'
+		with open(json_file, 'w') as file:
+			next_date = dates.index(date)+1
+			if next_date < len(dates):
+				cursor = tweepy.Cursor(api.search, q=company, count=100, since=date, until=dates[next_date], lang="en").items()
+				while True:
+					try:
+						tweet = cursor.next()._json
+						#print '-' * 30
+						#tweet = tweet._json
+						#tweets[tweet.id] = tweet.text.encode("utf-8")
+						tweets.append(tweet)
+					except tweepy.TweepError as e:
+						print('waiting on rate limit...')
+						time.sleep(60*15)
+						#print('waiting on rate limit...\t10 minutes to go')
+						#time.sleep(60*5)
+						#print('waiting on rate limit...\t 5 minutes to go')
+						#time.sleep(60*5)
+						print('continuing...')
+						continue
+					except StopIteration:
+						break
+			json.dump(tweets, file)
 
 
 # Main
