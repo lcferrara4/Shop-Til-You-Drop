@@ -30,13 +30,14 @@ def get_analysis(analyzer, filename):
             for tweet in tweets:
                 #if tweets['date']
                 vs = analyzer.polarity_scores(tweet['text'])
+                print(tweet['retweet_count'])
+                print(tweet['favorite_count'])
                 tot_pos += vs['pos']
                 tot_neg += vs['neg']
                 tot_comp += vs['compound']
                 tot_neutral += vs['neu']
                 num_tweets += 1
 
-            print(num_tweets)
             company = filename.split('/')[2].split("_")[0]
             data_file = "./sentiment_data/" + company + ".csv"
             f = open(data_file, "a+")

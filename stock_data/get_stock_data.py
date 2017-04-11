@@ -6,7 +6,7 @@ import yahoo_finance
 def export_historical_close(filename, curr_share, start_date, end_date):
     with open(filename, 'w') as f:
         historical_list = curr_share.get_historical(start_date, end_date)
-        for day in historical_list:
+        for day in reversed(historical_list):
             f.write(day['Date'] + ',' + day['Close'] + '\n')
     f.close()
 
@@ -14,8 +14,8 @@ if __name__ == '__main__':
     lulu = Share('LULU') # share data for lululemon stock
     urbn = Share('URBN') # share data for urban outfitters stock
     brby = Share('BRBY.L') # share data for burberry stock
-    start = "2017-03-13"
-    end = "2017-03-20"
+    start = "2017-03-15"
+    end = "2017-04-11"
     export_historical_close("lulu.csv", lulu, start, end)
     export_historical_close("urbn.csv", urbn, start, end)
     export_historical_close("brby.csv", brby, start, end)
