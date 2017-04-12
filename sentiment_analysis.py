@@ -30,8 +30,6 @@ def get_analysis(analyzer, filename):
             for tweet in tweets:
                 #if tweets['date']
                 vs = analyzer.polarity_scores(tweet['text'])
-                print(tweet['retweet_count'])
-                print(tweet['favorite_count'])
                 tot_pos += vs['pos']
                 tot_neg += vs['neg']
                 tot_comp += vs['compound']
@@ -57,6 +55,7 @@ if __name__ == '__main__':
             #for s in dirs:
             #    open(data_dir + s, "w+")
             for f in files:
+                print(os.path.join(subdir, f))
                 get_analysis(analyzer, os.path.join(subdir, f))
                 #get_analysis(analyzer, URBAN_OUTFITTERS_TWEETS_FILE)
                 #get_analysis(analyzer, BURBERRY_TWEETS_FILE)
