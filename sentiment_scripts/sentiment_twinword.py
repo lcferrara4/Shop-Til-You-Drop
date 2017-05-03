@@ -9,12 +9,6 @@ import json
 import os
 import requests
 
-# Files
-# ============================================================================*
-LULULEMON_TWEETS_FILE = 'lululemon_tweets.json'
-URBAN_OUTFITTERS_TWEETS_FILE = 'urbanoutfitters_tweets.json'
-BURBERRY_TWEETS_FILE = 'burberry_tweets.json'
-
 # Functions
 # ============================================================================*
 def get_analysis(filename):
@@ -52,7 +46,7 @@ def get_analysis(filename):
                     print(e)
 
             company = filename.split('/')[2].split("_")[0]
-            data_file = "./sentiment_data/twinword2/" + company + ".csv"
+            data_file = "../sentiment_data/twinword/" + company + ".csv"
             f = open(data_file, "a+")
             date = filename.split('/')[3].split("_")[1]
             if num_tweets != 0:
@@ -64,11 +58,6 @@ def get_analysis(filename):
 # Main
 # ============================================================================*
 if __name__ == '__main__':
-        data_dir = "./sentiment_data/"
-        for subdir, dirs, files in os.walk("./twitter_data"):
-            #for s in dirs:
-            #    open(data_dir + s, "w+")
+        for subdir, dirs, files in os.walk("../twitter_data"):
             for f in files:
                 get_analysis(os.path.join(subdir, f))
-                #get_analysis(analyzer, URBAN_OUTFITTERS_TWEETS_FILE)
-                #get_analysis(analyzer, BURBERRY_TWEETS_FILE)

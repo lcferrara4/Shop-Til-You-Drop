@@ -15,7 +15,7 @@ if __name__ == '__main__':
     urbn = Share('URBN') # share data for urban outfitters stock
     brby = Share('BRBY.L') # share data for burberry stock
     start = "2017-03-15"
-    end = "2017-04-11"
+    end = "2017-05-03"
     export_historical_close("lulu.csv", lulu, start, end)
     export_historical_close("urbn.csv", urbn, start, end)
     export_historical_close("brby.csv", brby, start, end)

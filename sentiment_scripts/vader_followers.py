@@ -9,23 +9,6 @@ import json
 import os
 import tweepy
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
-'''
-# Set up authentication to API
-consumer_key = '5weHvKIhzMHhuSF8f5zYPbvyB'
-consumer_secret = 'gHWKUiXKEamP5EEt4cBKh2vM1t44DIg2Cm8vkPeCzjassnD4FR'
-access_token = '826644830340149248-FlEOI106FEqZOV0pGXPiZeqkOguJCUe'
-access_token_secret = 'y9HHATsSs3ykEO47Jd7yQblqQAJvlrU5iCdhT55jILSYD'
-
-auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
-auth.set_access_token(access_token, access_token_secret)
-
-api = tweepy.API(auth) 
-'''
-# Files
-# ============================================================================*
-LULULEMON_TWEETS_FILE = 'lululemon_tweets.json'
-URBAN_OUTFITTERS_TWEETS_FILE = 'urbanoutfitters_tweets.json'
-BURBERRY_TWEETS_FILE = 'burberry_tweets.json'
 
 # Functions
 # ============================================================================*
@@ -40,12 +23,7 @@ def get_analysis(analyzer, filename):
         with open(filename) as file:    
             tweets = json.load(file)
             for tweet in tweets:
-                #if tweets['date']
                 vs = analyzer.polarity_scores(tweet['text'])
-                #print(tweet['retweet_count'])
-                #print(tweet['favorite_count'])
-                #tot_pos += vs['pos']
-                #tot_neg += vs['neg']
                 try:
                     tot_comp += vs['compound'] * tweet['user']['followers_count']
                     num_tweets += 1
@@ -53,7 +31,7 @@ def get_analysis(analyzer, filename):
                     print(e)
 
             company = filename.split('/')[2].split("_")[0]
-            data_file = "./sentiment_data/followers/" + company + ".csv"
+            data_file = "../sentiment_data/followers/" + company + ".csv"
             f = open(data_file, "a+")
             date = filename.split('/')[3].split("_")[1]
             if num_tweets != 0:
@@ -66,11 +44,6 @@ def get_analysis(analyzer, filename):
 # ============================================================================*
 if __name__ == '__main__':
         analyzer = SentimentIntensityAnalyzer()
-        data_dir = "./sentiment_data/"
-        for subdir, dirs, files in os.walk("./twitter_data"):
-            #for s in dirs:
-            #    open(data_dir + s, "w+")
+        for subdir, dirs, files in os.walk("../twitter_data"):
             for f in files:
                 get_analysis(analyzer, os.path.join(subdir, f))
-                #get_analysis(analyzer, URBAN_OUTFITTERS_TWEETS_FILE)
-                #get_analysis(analyzer, BURBERRY_TWEETS_FILE)

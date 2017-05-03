@@ -1,19 +1,26 @@
-import numpy as np
 import pandas as pd
 
 # create a vector
-brby_data = np.genfromtxt('../sentiment_data/main/burberry_sentiment.csv', delimiter=',')
-lulu_data = np.genfromtxt('../sentiment_data/main/lulu_sentiment.csv', delimiter=',')
-urbn_data = np.genfromtxt('../sentiment_data/main/urban_sentiment.csv', delimiter=',')
+brby_data = pd.read_csv('../sentiment_data/BurberrySentiment.csv')
+lulu_data = pd.read_csv('../sentiment_data/LuluSentiment.csv')
+urbn_data = pd.read_csv('../sentiment_data/UrbanSentiment.csv')
 
-df = pd.DataFrame(brby_data, columns=list('ABCDEFGHIJK'))
+X = ['NumTweets', 'VaderComp', 'VaderPos', 'VaderNeg', 'VaderNeu', 'ImpactVader', 'FollowVader', 'TB', 'ImpactTB', 'FollowTB', 'Twinword']
+Y = ['Stock']
+for i in range(1,22):
+    Y.append('Lag'+str(i))
+
 print("Burberry:")
-print(df.corr())
+corr_df = brby_data.corr()
+with pd.option_context('display.max_rows', 30, 'display.max_columns', 999):
+    print(corr_df.loc[X,Y])
 
-df = pd.DataFrame(lulu_data, columns=list('ABCDEFGHIJK'))
-print("LuLu:")
-print(df.corr())
+print("\nLuLu:")
+corr_df = lulu_data.corr()
+with pd.option_context('display.max_rows', 30, 'display.max_columns', 999):
+    print(corr_df.loc[X,Y])
 
-df = pd.DataFrame(urbn_data, columns=list('ABCDEFGHIJK'))
-print("Urban:")
-print(df.corr())
+print("\nUrban:")
+corr_df = urbn_data.corr()
+with pd.option_context('display.max_rows', 30, 'display.max_columns', 999):
+    print(corr_df.loc[X,Y])
