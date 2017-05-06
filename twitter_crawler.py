@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+# Written by Reilly Kearney
+
 # Twitter Crawler to Get Information
 
 # Import Modules
@@ -21,7 +23,7 @@ ACCESS_TOKEN_SECRET = 'SFT0uVZWeFFdhhYeVaCgDbNV26H9M1jKHelE0P8tQ32wF'
 class StreamListener(tweepy.StreamListener):
 
 	def on_status(self, status):
-		print '-' * 30
+		print('-' * 30)
 		print(status.text)
 
 	def on_error(self, status_code):
@@ -36,22 +38,14 @@ def authenticate():
 		auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
 		auth.set_access_token(ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
 		api = tweepy.API(auth)
-	except tweepy.TweepError, e:
-		print 'error: authenticate'
+	except tweepy.TweepError as e:
+		print('error: authenticate')
 
 	return api
 
-def get_tweet_keyword(api, keywords):
-	stream_listener = StreamListener()
-	stream = tweepy.Stream(auth = api.auth, listener=StreamListener())
-	try: 
-		stream.filter(track = keywords)
-	except:
-		print "error: get_tweet_keyword"
-		stream.disconnect()
-
 def get_tweets_company(api, company):
-	dates = ["2017-04-15", "2017-04-16", "2017-04-17", "2017-04-18", "2017-04-19", "2017-04-20", "2017-04-21", "2017-04-22", "2017-04-23", "2017-04-24", "2017-04-25", "2017-04-26"]
+	dates = ["2017-04-27", "2017-04-28", "2017-04-29", "2017-04-30", "2017-05-01", "2017-05-02", 
+                "2017-05-03", "2017-05-04"]
 	
 	company_file = company.replace(" ", "")
 
@@ -66,17 +60,10 @@ def get_tweets_company(api, company):
 				while True:
 					try:
 						tweet = cursor.next()._json
-						#print '-' * 30
-						#tweet = tweet._json
-						#tweets[tweet.id] = tweet.text.encode("utf-8")
 						tweets.append(tweet)
 					except tweepy.TweepError as e:
 						print('waiting on rate limit...')
 						time.sleep(60*15)
-						#print('waiting on rate limit...\t10 minutes to go')
-						#time.sleep(60*5)
-						#print('waiting on rate limit...\t 5 minutes to go')
-						#time.sleep(60*5)
 						print('continuing...')
 						continue
 					except StopIteration:
@@ -92,7 +79,3 @@ if __name__ == '__main__':
 	get_tweets_company(api, "lululemon")
 	get_tweets_company(api, "urban outfitters")
 	get_tweets_company(api, "burberry")
-
-
-
-
