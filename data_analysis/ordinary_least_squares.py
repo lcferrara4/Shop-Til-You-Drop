@@ -12,7 +12,6 @@ import statsmodels.api as sm
 import matplotlib.pyplot as plt
 from math import sqrt
 from matplotlib import cm
-from mpl_toolkits.mplot3d import Axes3D
 from statsmodels.formula.api import ols
 from sklearn.feature_selection import SelectKBest, f_regression, chi2
 from sklearn.metrics import mean_squared_error
