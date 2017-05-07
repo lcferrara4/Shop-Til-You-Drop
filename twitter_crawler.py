@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# Written by Reilly Kearney
+# Written by Reilly Kearney and Lauren Ferrara
 
 # Twitter Crawler to Get Information
 
@@ -13,10 +13,13 @@ from tweepy import OAuthHandler, Stream, Cursor
 
 # Twitter Info for Authenication
 # ============================================================================*
-CONSUMER_KEY = 'WTVkon00o5Cw6GM7zRkVR35JK'
-CONSUMER_SECRET = '9tFDBYEYq0dAWU2eIc6PNQ138U2FX5fyMteWP557fJVz1nkZps'
-ACCESS_TOKEN = '1317444872-ab3pwAHwfB3WKtXnL1XSKLlmm29vQm085tPrANW'
-ACCESS_TOKEN_SECRET = 'SFT0uVZWeFFdhhYeVaCgDbNV26H9M1jKHelE0P8tQ32wF'
+f = open("../twitter_credentials.txt", "r")
+credentials = f.readlines()
+
+CONSUMER_KEY = credentials[0].rstrip('\n')
+CONSUMER_SECRET = credentials[1].rstrip('\n')
+ACCESS_TOKEN = credentials[2].rstrip('\n')
+ACCESS_TOKEN_SECRET = credentials[3].rstrip('\n')
 
 # Stream Listener Class
 # ============================================================================*
@@ -44,8 +47,7 @@ def authenticate():
 	return api
 
 def get_tweets_company(api, company):
-	dates = ["2017-04-27", "2017-04-28", "2017-04-29", "2017-04-30", "2017-05-01", "2017-05-02", 
-                "2017-05-03", "2017-05-04"]
+	dates = ["2017-05-06", "2017-05-07"]
 	
 	company_file = company.replace(" ", "")
 
@@ -62,13 +64,14 @@ def get_tweets_company(api, company):
 						tweet = cursor.next()._json
 						tweets.append(tweet)
 					except tweepy.TweepError as e:
-						print('waiting on rate limit...')
-						time.sleep(60*15)
-						print('continuing...')
-						continue
+                                                print('waiting on rate limit...')
+                                                time.sleep(60*15)
+                                                print('continuing...')
+                                                continue
 					except StopIteration:
 						break
 			json.dump(tweets, file)
+
 
 
 # Main
