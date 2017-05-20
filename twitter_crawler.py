@@ -47,14 +47,15 @@ def authenticate():
 	return api
 
 def get_tweets_company(api, company):
-	dates = ["2017-05-06", "2017-05-07"]
+	dates = ["2017-05-20",  "2017-05-21", "2017-05-22", "2017-05-23",
+	        "2017-05-24", "2017-05-25", "2017-05-26", "2017-05-27", "2017-05-28"]     
 	
 	company_file = company.replace(" ", "")
 
 
 	for date in dates:
 		tweets = []
-		json_file = company_file + '_' + date + '_tweets.json'
+		json_file = './twitter_data/' + company_file + "_data/" +company_file + '_' + date + '_tweets.json'
 		with open(json_file, 'w') as file:
 			next_date = dates.index(date)+1
 			if next_date < len(dates):
@@ -64,6 +65,7 @@ def get_tweets_company(api, company):
 						tweet = cursor.next()._json
 						tweets.append(tweet)
 					except tweepy.TweepError as e:
+                                                print(e)
                                                 print('waiting on rate limit...')
                                                 time.sleep(60*15)
                                                 print('continuing...')
@@ -79,6 +81,6 @@ def get_tweets_company(api, company):
 if __name__ == '__main__':
 	api = authenticate();
 	
-	get_tweets_company(api, "lululemon")
-	get_tweets_company(api, "urban outfitters")
+	#get_tweets_company(api, "lululemon")
+	#get_tweets_company(api, "urban outfitters")
 	get_tweets_company(api, "burberry")

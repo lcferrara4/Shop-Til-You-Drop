@@ -9,7 +9,7 @@ import yahoo_finance
 SYMBOLS = ['LULU', 'URBN', 'BRBY.L']
 FILE_NAMES = ['lulu.csv', 'urbn.csv', 'brby.csv']
 START_DATE = "2017-03-15"
-END_DATE = "2017-05-05"
+END_DATE = "2017-05-10"
 
 # Calls Yahoo Finance API to get data
 def export_historical_close(filename, curr_share, start_date, end_date):
